@@ -15,6 +15,7 @@ type Config struct {
 	SMTPPass     string
 	SMTPFrom     string
 	SMTPFromName string
+	SMTPProxy    string
 }
 
 func Load() Config {
@@ -30,6 +31,7 @@ func Load() Config {
 		SMTPPass:     getEnv("SMTP_PASS", ""),
 		SMTPFrom:     getEnv("SMTP_FROM", "noreply@example.com"),
 		SMTPFromName: getEnv("SMTP_FROM_NAME", "Example"),
+		SMTPProxy:    getEnv("SMTP_PROXY", ""),
 	}
 
 	if config.RabbitMQURL == "" {
