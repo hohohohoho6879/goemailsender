@@ -23,11 +23,15 @@ func New(configuration config.Config) *Mailer {
 	return &Mailer{config: configuration}
 }
 
-func (mailer *Mailer) Send(to, subject, htmlBody string) error {
+func (mailer *Mailer) Send(to, fromName, subject, htmlBody string) error {
 	auth := smtp.PlainAuth("", mailer.config.SMTPUser, mailer.config.SMTPPass, mailer.config.SMTPHost)
 
+	if fromName == "" {
+		fromName = mailer.config.SMTPFromName
+	}
+
 	encodedSubject := mime.QEncoding.Encode("utf-8", subject)
-	encodedFromName := mime.QEncoding.Encode("utf-8", mailer.config.SMTPFromName)
+	encodedFromName := mime.QEncoding.Encode("utf-8", fromName)
 
 	headers := fmt.Sprintf(
 		"From: %s <%s>\r\nTo: %s\r\nSubject: %s\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\n\r\n",

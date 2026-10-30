@@ -107,7 +107,7 @@ func (consumer *Consumer) handleMessage(delivery amqp.Delivery) {
 		return
 	}
 
-	if error := consumer.mailer.Send(emailData.To, emailData.Subject, html); error != nil {
+	if error := consumer.mailer.Send(emailData.To, emailData.WebsiteName, emailData.Subject, html); error != nil {
 		log.Printf("Failed to send email to %s: %s", emailData.To, error)
 		delivery.Nack(false, true)
 		return
